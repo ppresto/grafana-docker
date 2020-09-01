@@ -1,0 +1,12 @@
+version: '3'
+services:
+  grafana:
+    container_name: "grafana"
+    #network_mode: "host"
+    dns: "172.17.0.1"
+    image: "ppresto/grafana:latest"
+    environment:
+      GF_SECURITY_ADMIN_USER: "consul"
+      GF_SECURITY_ADMIN_PASSWORD: "consul"
+    ports:
+    - "3000:3000"
