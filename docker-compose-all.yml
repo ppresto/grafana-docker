@@ -1,0 +1,39 @@
+version: '3'
+services:
+  master:
+    image: locustio/locust
+    ports:
+    - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master -H http://frontend.service.consul:80
+  worker:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host master
+
+  prometheus:
+    container_name: "prometheus"
+    image: "prom/prometheus"
+    ports:
+    - "9090:9090"
+    volumes: 
+    - /prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  grafana:
+    container_name: "grafana"
+    image: "ppresto/grafana:1.0"
+    environment:
+      GF_SECURITY_ADMIN_USER: "consul"
+      GF_SECURITY_ADMIN_PASSWORD: "consul"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_NAME: "Main Org."
+    ports:
+    - "3000:3000"
+  locust_exporter:
+    container_name: "locust_exporter"
+    network_mode: "host"
+    image: "containersol/locust_exporter"
+    ports:
+    - "9646:9646"
+    # http://localhost:9646/metrics
