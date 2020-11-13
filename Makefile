@@ -1,6 +1,6 @@
 BUILD_ID := $(shell git rev-parse --short HEAD 2>/dev/null || echo no-commit-id)
 IMAGE_NAME := ppresto/grafana
-VERSION := 1.1 
+VERSION := 1.2 
 
 .DEFAULT_GOAL := help
 help: ## List targets & descriptions

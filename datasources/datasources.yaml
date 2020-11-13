@@ -5,9 +5,19 @@ apiVersion: 1
 deleteDatasources:
   - name: Prometheus
     orgId: 1
+  - name: Loki
+    orgId: 1
+    
 # list of datasources to insert/update depending
 # whats available in the database
 datasources:
+- name: Loki
+  type: loki
+  access: proxy
+  orgId: 1
+  url: http://loadtest:3100
+  editable: false
+
   # <string, required> name of the datasource. Required
 - name: Prometheus
   # <string, required> datasource type. Required
